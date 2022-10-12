@@ -26,6 +26,7 @@ namespace ft
         private:
 
             size_type       _capacity;
+            pointer         _finish;
             pointer         _start;
             pointer         _end;
             allocator_type  _space;
@@ -44,23 +45,24 @@ namespace ft
 
             //constructor
             explicit vector (const allocator_type& alloc = allocator_type())
-            : _space(alloc) {}
+            : _space(alloc), _finish(0), _start(0), _end(0), _capacity(0){}
+
             explicit vector (size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type())
-            : _capacity(n), value_type(val), _space(alloc) {}
+            : _capacity(n), value_type(val), _space(alloc), _finish(0), _start(0), _end(0) {}
             
             template <class InputIterator>
             vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type());	
             
-            vector (const vector& x)                                                    {*this = x;}
+            vector (const vector& x)                                                    {*this = x;}//PAS FINI
 
             //destructor
-            ~vector()                                                                   {}
+            ~vector()                                                                   {}//PAS FINI
 
             //operator assignement
             vector& operator=(const vector& rhs)                                        {
                                                                                             if(this == &rhs)
                                                                                                 return *this;
-                                                                                        }
+                                                                                        }//PAS FINI
 
             //iterator
             iterator begin()                                                            {return iterator(this->_start);}
@@ -80,7 +82,7 @@ namespace ft
                                                                                                 fill_insert(this->_start, n - size(), val);
                                                                                             else if (n < size())
                                                                                                 erase_at_end(this->_start + n);
-                                                                                        }
+                                                                                        }//PAS FINI
             size_type capacity() const                                                  {return this->_capacity;}
             bool empty() const                                                          {return begin() == end();}
             void reserve (size_type n);
@@ -102,23 +104,39 @@ namespace ft
             const_reference front() const                                               {return *this->_start;}
             reference back()                                                            {return *(this->_end - 1);}
             const_reference back() const                                                {return *(this->_end - 1);}
-            //value_type* data() noexcept;
-            //const value_type* data() const noexcept;
+            value_type* data() noexcept;
+            const value_type* data() const noexcept;
 
             //modifiers
             template <class InputIterator>
-            void assign (InputIterator first, InputIterator last);
+            void assign (InputIterator first, InputIterator last);//ATTENTION INCREMENTER _FINISH = _START
             
-            void assign (size_type n, const value_type& val);
-            void push_back (const value_type& val);
-            void pop_back();
-            iterator insert (iterator position, const value_type& val);
-            void insert (iterator position, size_type n, const value_type& val);
+            void assign (size_type n, const value_type& val);//ATTENTION INCREMENTER _FINISH = _START
+            void push_back (const value_type& val);//ATTENTION INCREMENTER _FINISH
+            void pop_back();//ATTENTION INCREMENTER _FINISH
+            iterator insert (iterator position, const value_type& val);//ATTENTION INCREMENTER _FINISH
+            void insert (iterator position, size_type n, const value_type& val);//ATTENTION INCREMENTER _FINISH
            
             template <class InputIterator>
-            void insert (iterator position, InputIterator first, InputIterator last);   
+            void insert (iterator position, InputIterator first, InputIterator last);   //ATTENTION INCREMENTER _FINISH
             
-            void swap (vector& x);
+            iterator erase (iterator position);
+            iterator erase (iterator first, iterator last);
+            void swap (vector<T,Alloc>& x)                                              {
+                                                                                            pointer tmp;
+
+                                                                                            tmp = this->_start;
+                                                                                            this->_start = x._start;
+                                                                                            x._start = tmp;
+                                                                                            
+                                                                                            tmp = this->_finish;
+                                                                                            this->_finish = x._finish;
+                                                                                            x._finish = tmp;
+
+                                                                                            tmp = this->_end;
+                                                                                            this->_end = x._end;
+                                                                                            x._end = tmp;
+                                                                                        }
             void clear()                                                                {
                                                                                             destruct(this->_start, this->_capacity);
                                                                                             this->_capacity = this->_start;
