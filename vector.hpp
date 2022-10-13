@@ -24,14 +24,14 @@ namespace ft
             typedef std::reverse_iterator<iterator>             reverse_iterator;
             typedef std::reverse_iterator<const_iterator>       const_reverse_iterator;
 
-        private:
+        private: // "variable"
 
             allocator_type  _space; //l'allocation memoir
             pointer         _vector; //pointeur sur tableau
             size_type       _capacity; //taille max de la memoir allouee
             size_type       _size; //taille en cour
         
-        private:
+        private: //pour les fonctions
 
 
 
@@ -54,7 +54,7 @@ namespace ft
             : _space(alloc)
             {
 
-            }*/
+            }*/                                         //A FAIRE
             
             vector (const vector& x)
             : _space(x._space), _vector(NULL), _size(0), _capacity(0)
@@ -85,7 +85,21 @@ namespace ft
             //capacity
             size_type size() const                                      {return this->_size;}
             size_type max_size() const                                  {return _space.max_size();}
-            void resize (size_type n, value_type val = value_type()); //A FAIRE
+            /*void resize (size_type n, value_type val = value_type()); 
+            {
+                Redimensionne le conteneur afin qu'il contienne n éléments.
+
+                Si n est plus petit que la taille actuelle du conteneur ,
+                le contenu est réduit à ses n premiers éléments, supprimant ceux au-delà (et les détruisant).
+
+                Si n est supérieur à la taille actuelle du conteneur ,
+                le contenu est développé en insérant à la fin autant d'éléments que nécessaire pour atteindre une taille de n .
+                Si val est spécifié, les nouveaux éléments sont initialisés en tant que copies de val , sinon, ils sont initialisés en valeur.
+
+                Si n est également supérieur à la capacité actuelle du conteneur, une réallocation automatique de l'espace de stockage alloué a lieu.
+
+                Notez que cette fonction modifie le contenu réel du conteneur en y insérant ou en supprimant des éléments.            
+            }                                                                                                               //A FAIRE*/
             size_type capacity() const                                  {return this->_capacity;}
             bool empty() const                                          {return this->_size == 0;}
             void reserve (size_type n)
@@ -126,17 +140,21 @@ namespace ft
                 return (this->_vector[n]);
             }
 
-            reference front()                               {return this->_vector[0];}
-            const_reference front() const                   {return this->_vector[0];}
-            reference back()                                {return this->_vector[this->_size - 1];}
-            const_reference back() const                    {return this->_vector[this->_size - 1];}
-            value_type* data()                              {return this->_vector;}
-            const value_type* data() const                  {return this->_vector;}
+            reference front()               {return this->_vector[0];}
+            const_reference front() const   {return this->_vector[0];}
+            reference back()                {return this->_vector[this->_size - 1];}
+            const_reference back() const    {return this->_vector[this->_size - 1];}
+            value_type* data()              {return this->_vector;}
+            const value_type* data() const  {return this->_vector;}
 
             //modifiers
             template <class InputIterator>
-            void assign (InputIterator first, InputIterator last); //A FAIRE
-            
+            void assign (InputIterator first, InputIterator last);/* //A FAIRE/
+            {
+                Attribue un nouveau contenu au vecteur , en remplaçant son contenu actuel et en modifiant sa taille en conséquence.
+                Tous les éléments contenus dans le conteneur avant l'appel sont détruits et remplacés par des éléments nouvellement construits (aucune affectation d'éléments n'a lieu).
+                Cela provoque une réallocation automatique de l'espace de stockage alloué si -et seulement si- la nouvelle taille du vecteur dépasse la capacité actuelle du vecteur 
+            }*/
             void assign (size_type n, const value_type& val); //A FAIRE
 
             void push_back (const value_type& val)                                      
@@ -158,7 +176,21 @@ namespace ft
                 }
             }
 
-            iterator insert (iterator position, const value_type& val); //A FAIRE
+            iterator insert (iterator position, const value_type& val);/* //A FAIRE
+            {
+                Le vecteur est étendu en insérant de nouveaux éléments avant l'élément à la position spécifiée ,
+                augmentant ainsi la taille du conteneur du nombre d'éléments insérés.
+
+                Cela provoque une réallocation automatique de l'espace de stockage alloué si -et seulement si-
+                la nouvelle taille du vecteur dépasse la capacité actuelle du vecteur .
+
+                Étant donné que les vecteurs utilisent un tableau comme stockage sous-jacent,
+                l'insertion d'éléments dans des positions autres que la fin du vecteur oblige le conteneur à déplacer
+                tous les éléments qui se trouvaient après la positionà leurs nouveaux postes. Il s'agit généralement d'une opération inefficace
+                par rapport à celle effectuée pour la même opération par d'autres types de conteneurs de séquence (tels que list ou forward_list ).
+
+                Les paramètres déterminent combien d'éléments sont insérés et à quelles valeurs ils sont initialisés :
+            }*/
             void insert (iterator position, size_type n, const value_type& val); //A FAIRE
            
             template <class InputIterator>
