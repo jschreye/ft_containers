@@ -210,7 +210,11 @@ namespace ft
                 }
             }
 
-            iterator insert (iterator position, const value_type& val);/* //A FAIRE
+           /* iterator insert (iterator position, const value_type& val)//A FAIRE
+            {
+                
+            }
+            void insert (iterator position, size_type n, const value_type& val) //A FAIRE
             {
                 Le vecteur est étendu en insérant de nouveaux éléments avant l'élément à la position spécifiée ,
                 augmentant ainsi la taille du conteneur du nombre d'éléments insérés.
@@ -224,14 +228,28 @@ namespace ft
                 par rapport à celle effectuée pour la même opération par d'autres types de conteneurs de séquence (tels que list ou forward_list ).
 
                 Les paramètres déterminent combien d'éléments sont insérés et à quelles valeurs ils sont initialisés :
+                if ()
             }*/
-            void insert (iterator position, size_type n, const value_type& val); //A FAIRE
            
             template <class InputIterator>
             void insert (iterator position, InputIterator first, InputIterator last); //A FAIRE
             
-            iterator erase (iterator position); //A FAIRE
-            iterator erase (iterator first, iterator last); //A FAIRE
+            iterator erase (iterator position)
+            {
+                size_t i = 0;
+                size_type pos = position - begin();
+                _space.destroy(_vector + pos);
+                for (i = pos; i <= _size - 1; i++)
+                    *(_vector + i) = *(_vector + i + 1);
+                this->_size--;
+                return (begin() + pos);
+            }
+
+            iterator erase (iterator first, iterator last)
+            {
+
+            }
+
             void swap (vector<T,Alloc>& x)
             {
                 allocator_type  _space_tmp = x._space;
