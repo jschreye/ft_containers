@@ -42,7 +42,7 @@ namespace ft
             : _space(alloc), _vector(NULL), _capacity(0), _size(0) {}
 
             explicit vector (size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type())
-            : _space(alloc), _vector(NULL), _size(n), _capacity(n) 
+            : _space(alloc), _vector(NULL), _capacity(n), _size(n) 
             {
                 this->_vector = this->_space.allocate(n);
                 for (size_type i = 0; i < _size; i++)
@@ -63,7 +63,7 @@ namespace ft
             }
 
             //destructor
-            ~vector() {}//PAS FINI
+            ~vector() {clear();}//PAS FINI
 
             //operator assignement
             vector& operator=(const vector& rhs)
@@ -85,21 +85,31 @@ namespace ft
             //capacity
             size_type size() const                                      {return this->_size;}
             size_type max_size() const                                  {return _space.max_size();}
-            /*void resize (size_type n, value_type val = value_type()); 
+
+            void resize (size_type n, value_type val = value_type())
             {
-                Redimensionne le conteneur afin qu'il contienne n éléments.
+                if (n < _size)
+                {
+                    for (; _size != n; _size--)
+                        _space.destroy(_vector + _size);
+                }
+                else if (n > _size)
+                {
+                    if (n > _capacity)
+                    {
+                        pointer tmp = _space.allocate(n);
+                        for (size_t i = 0; i != _size; i++)
+                            this->_space.construct(tmp + i, this->_vector[i]);  
+                        _space.deallocate(this->_vector, this->_capacity);
+                        _capacity = n;
+                        this->_vector = tmp;
+                    }
+                    for(size_t i = _size; i != n; i++)
+                        this->_space.construct(_vector + i, val);
+                }
+                _size = n;
+            }
 
-                Si n est plus petit que la taille actuelle du conteneur ,
-                le contenu est réduit à ses n premiers éléments, supprimant ceux au-delà (et les détruisant).
-
-                Si n est supérieur à la taille actuelle du conteneur ,
-                le contenu est développé en insérant à la fin autant d'éléments que nécessaire pour atteindre une taille de n .
-                Si val est spécifié, les nouveaux éléments sont initialisés en tant que copies de val , sinon, ils sont initialisés en valeur.
-
-                Si n est également supérieur à la capacité actuelle du conteneur, une réallocation automatique de l'espace de stockage alloué a lieu.
-
-                Notez que cette fonction modifie le contenu réel du conteneur en y insérant ou en supprimant des éléments.            
-            }                                                                                                               //A FAIRE*/
             size_type capacity() const                                  {return this->_capacity;}
             bool empty() const                                          {return this->_size == 0;}
             void reserve (size_type n)
@@ -149,13 +159,26 @@ namespace ft
 
             //modifiers
             template <class InputIterator>
-            void assign (InputIterator first, InputIterator last);/* //A FAIRE/
+            void assign (InputIterator first, InputIterator last) //A FAIRE/
             {
-                Attribue un nouveau contenu au vecteur , en remplaçant son contenu actuel et en modifiant sa taille en conséquence.
-                Tous les éléments contenus dans le conteneur avant l'appel sont détruits et remplacés par des éléments nouvellement construits (aucune affectation d'éléments n'a lieu).
-                Cela provoque une réallocation automatique de l'espace de stockage alloué si -et seulement si- la nouvelle taille du vecteur dépasse la capacité actuelle du vecteur 
-            }*/
-            void assign (size_type n, const value_type& val); //A FAIRE
+                clear();
+                
+            }
+
+            void assign (size_type n, const value_type& val)
+            {
+                clear();
+                if (n <= _size)
+                {
+                    for(size_t i = 0; i != n; i++)
+                        _space.construct(_vector + i, val);
+                }
+                else if (n > _size)
+                {
+                    resize(n, val);
+                }
+                _size = n;
+            }
 
             void push_back (const value_type& val)                                      
             {
@@ -218,9 +241,8 @@ namespace ft
 
             void clear()
             {
-                for (size_type i = 0; i != this->size(); i++)
-                    _space.destroy(_vector + i);
-                this->_size = 0;
+                for (; _size != 0; _size--)
+                    _space.destroy(_vector + _size);
             }
             //allocator
             allocator_type get_allocator() const    {return this->_space;}
