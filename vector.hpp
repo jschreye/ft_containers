@@ -247,7 +247,17 @@ namespace ft
 
             iterator erase (iterator first, iterator last)
             {
-
+                size_type size_delete = 0;
+                for (iterator it = first; it != last; it++) {
+                    _space.destroy(&(*it));
+                    size_delete++;
+                }
+                for (iterator it = first; last != this->end(); last++) {
+                    *it = *last;
+                    it++;
+                }
+                this->_size -= size_delete;
+                return (first);                
             }
 
             void swap (vector<T,Alloc>& x)

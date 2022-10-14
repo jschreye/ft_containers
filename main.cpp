@@ -44,8 +44,8 @@ int main()
     for (size_t i = 0; i < x.size(); i++)
         std::cout << x[i] << " il y a ca dans x " << std::endl;*/
 
-    std::cout << *(x.erase(x.begin() + 2)) << std::endl;
-    std::cout << *(y.erase(y.begin() + 2)) << std::endl;
+    std::cout << *(x.erase(x.begin() , x.begin() + 1)) << std::endl;
+    std::cout << *(y.erase(y.begin() , y.begin() + 1)) << std::endl;
 
     for (size_t i = 0; i < y.size(); i++)
         std::cout << y[i] << " il y a ca dans y " << std::endl;
