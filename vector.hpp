@@ -49,12 +49,12 @@ namespace ft
                     this->_space.construct((this->_vector + i), val);
             }
             
-            /*template <class InputIterator>
+            template <class InputIterator>
             vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type())
             : _space(alloc)
             {
-
-            }*/                                         //A FAIRE
+                assign(first, last);
+            }
             
             vector (const vector& x)
             : _space(x._space), _vector(NULL), _size(0), _capacity(0)
@@ -63,7 +63,11 @@ namespace ft
             }
 
             //destructor
-            ~vector() {clear();}//PAS FINI
+            ~vector() 
+            {
+                clear();
+                _space.deallocate(_vector, this->_capacity);
+            }
 
             //operator assignement
             vector& operator=(const vector& rhs)
@@ -159,10 +163,17 @@ namespace ft
 
             //modifiers
             template <class InputIterator>
-            void assign (InputIterator first, InputIterator last) //A FAIRE/
+            void assign (InputIterator first, InputIterator last)
             {
                 clear();
-                
+                size_type new_size = last - first;
+                reserve(new_size);
+                for (size_t i = 0; i < new_size; i++)
+                {
+                    _space.construct(_vector + i, *first);
+                    first++;
+                }
+                _size = new_size;
             }
 
             void assign (size_type n, const value_type& val)
