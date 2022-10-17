@@ -87,8 +87,8 @@ namespace ft
             const_reverse_iterator rend() const     {return const_reverse_iterator(iterator(this->begin()));}
 
             //capacity
-            size_type size() const                                      {return this->_size;}
-            size_type max_size() const                                  {return _space.max_size();}
+            size_type size() const                  {return this->_size;}
+            size_type max_size() const              {return _space.max_size();}
 
             void resize (size_type n, value_type val = value_type())
             {
@@ -244,8 +244,65 @@ namespace ft
                 }
                 return this->_vector + pos; 
             }
-            /*void insert (iterator position, size_type n, const value_type& val) //A FAIRE
+            void insert (iterator position, size_type n, const value_type& val) //A FAIRE
             {
+                pointer new_vector = NULL;
+                size_type pos = position - this->begin();
+                size_type end = this->end() - this->begin();
+                size_type i = 0;
+                if (pos <= this->_size)
+                {
+                    new_vector = _space.allocate(this->_size + n);
+                    for (i = 0; i < pos; i++)
+                        _space.construct(new_vector + i, this->_vector[i]);
+                    for (; i - pos < n; i++)
+                        _space.construct(new_vector + i, val);
+                    for (; i < end + n; i++)
+                        _space.construct(new_vector + i, this->_vector[i - n]);
+                    _space.deallocate(this->_vector, this->_capacity);
+                    this->_vector = new_vector;
+                    this->_capacity = _capacity + n;
+                    this->_size = _size + n;
+                }
+                else if (pos > this->_size)
+                {
+                    new_vector = _space.allocate(pos + n);
+                    if (i > pos)
+                        for (i = 0; i < pos; i++)
+                        {
+                            std::cout << pos << " i = " << i << std::endl;
+                            _space.construct(new_vector + i, _vector[i - n]);
+                        }
+                    else if (i <= pos)
+                        for (i = 0; i < pos; i++)
+                        {
+                            std::cout << pos << " i2 = " << i << std::endl;
+                            _space.construct(new_vector + i, _vector[i]);
+                        }
+                    if (i >= pos)
+                    {
+                        for (; i - pos < n; i++)
+                        {
+                            std::cout << "a" << std::endl;
+                            _space.construct(new_vector + i, val);
+                        }
+                    }
+                    else if (i < pos)
+                        for (; pos - i < n; i++)
+                        {
+                            std::cout << "b" << std::endl;
+                            _space.construct(new_vector + i, val);
+                        }
+                    for (; i < end; i++)
+                        _space.construct(new_vector + i + 1, _vector[i - n]);
+                    _space.deallocate(this->_vector, this->_capacity);
+                    this->_vector = new_vector;
+                    this->_size = pos + n;
+                    this->_capacity = pos + n;
+                }  
+            }
+            template <class InputIterator>
+            /*void insert (iterator position, InputIterator first, InputIterator last); //A FAIRE
                 Le vecteur est étendu en insérant de nouveaux éléments avant l'élément à la position spécifiée ,
                 augmentant ainsi la taille du conteneur du nombre d'éléments insérés.
 
@@ -257,12 +314,7 @@ namespace ft
                 par rapport à celle effectuée pour la même opération par d'autres types de conteneurs de séquence (tels que list ou forward_list ).
 
                 Les paramètres déterminent combien d'éléments sont insérés et à quelles valeurs ils sont initialisés :
-                if ()
-            }*/
-           
-            template <class InputIterator>
-            void insert (iterator position, InputIterator first, InputIterator last); //A FAIRE
-            
+            */
             iterator erase (iterator position)
             {
                 size_t i = 0;

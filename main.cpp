@@ -43,14 +43,16 @@ int main()
         std::cout << y[i] << " il y a ca " << std::endl;
     for (size_t i = 0; i < x.size(); i++)
         std::cout << x[i] << " il y a ca dans x " << std::endl;*/
-    x.insert(x.begin() + 1, 12);
-    y.insert(y.begin() + 1, 12);
+   /* x.insert(x.begin(), 3, 4);
+    y.insert(y.begin(), 3, 4);
     for (size_t i = 0; i < x.size(); i++)
-        std::cout << "x :" << x[i] << " y :" << y[i] << std::endl;
-    x.insert(x.begin() + 7, 2);
-    y.insert(y.begin() + 7, 2);
+        std::cout << "x :" << x[i] << " y :" << y[i] << std::endl;*/
+    x.insert(x.begin() + 5, 4, 9);
+    y.insert(y.begin() + 5, 9);
     for (size_t i = 0; i < x.size(); i++)
-        std::cout << "x :" << x[i] << " y :" << y[i] << std::endl;
+        std::cout << "x :" << x[i] << std::endl;
+    for (size_t i = 0; i < y.size(); i++)
+        std::cout << " y :" << y[i] << std::endl;
 
     return (0);
 }
