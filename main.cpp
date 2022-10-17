@@ -43,14 +43,48 @@ int main()
         std::cout << y[i] << " il y a ca " << std::endl;
     for (size_t i = 0; i < x.size(); i++)
         std::cout << x[i] << " il y a ca dans x " << std::endl;*/
-
-    std::cout << *(x.erase(x.begin() , x.begin() + 1)) << std::endl;
-    std::cout << *(y.erase(y.begin() , y.begin() + 1)) << std::endl;
-
-    for (size_t i = 0; i < y.size(); i++)
-        std::cout << y[i] << " il y a ca dans y " << std::endl;
+    x.insert(x.begin() + 1, 12);
+    y.insert(y.begin() + 1, 12);
     for (size_t i = 0; i < x.size(); i++)
-        std::cout << x[i] << " il y a ca dans x " << std::endl;
+        std::cout << "x :" << x[i] << " y :" << y[i] << std::endl;
+    x.insert(x.begin() + 7, 2);
+    y.insert(y.begin() + 7, 2);
+    for (size_t i = 0; i < x.size(); i++)
+        std::cout << "x :" << x[i] << " y :" << y[i] << std::endl;
 
     return (0);
 }
+
+
+/*
+truc tanguy pour insert
+            {
+                pointer new_vector = this->_vector;
+                size_type pos = position - this->begin();
+                size_type first = 0;
+                size_type end = _size;
+                size_type i;
+                std::cout << "pos = "<< pos << "size = " << _size << "first  = " << first << "end = " << end << std::endl;
+                if (this->_size == this->_capacity || _size == 0)
+                {
+                    new_vector = _space.allocate(this->_size + 1);
+                    for (i = 0; i < pos; i++)
+                        _space.construct(new_vector + i, this->_vector[i]);
+                    this->_capacity++;
+                }  
+                if (pos <= this->_size)
+                {
+                    std::cout << "1" << std::endl;
+                    _space.construct(new_vector + pos, val);
+                    for (i = end; i > pos; i--)
+                    {
+                         //std::cout << i << std::endl;
+                        _space.construct(new_vector + i + 1, this->_vector[i]);
+                    }
+                }
+                //_space.deallocate(this->_vector, this->_capacity);
+                this->_vector = new_vector;
+                this->_size++;
+                return this->_vector + pos; 
+            }
+*/

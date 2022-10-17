@@ -210,18 +210,47 @@ namespace ft
                 }
             }
 
-           /* iterator insert (iterator position, const value_type& val)//A FAIRE
+            iterator insert (iterator position, const value_type& val)//A FAIRE
             {
-                
+                pointer new_vector = NULL;
+                size_type pos = position - this->begin();
+                size_type end = this->end() - this->begin();
+                size_type i;
+                if (pos <= this->_size)
+                {
+                    new_vector = _space.allocate(this->_size + 1);
+                    for (i = 0; i < pos; i++)
+                        _space.construct(new_vector + i, this->_vector[i]);
+                    _space.construct(new_vector + i, val);
+                    for (; i < end; i++)
+                        _space.construct(new_vector + i + 1, this->_vector[i]);
+                    _space.deallocate(this->_vector, this->_capacity);
+                    this->_vector = new_vector;
+                    this->_size++;
+                    this->_capacity++;
+                }
+                else if (pos > this->_size)
+                {
+                    new_vector = _space.allocate(pos + 1); 
+                    for (i = 0; i < pos; i++)
+                        _space.construct(new_vector + i, _vector[i]);
+                    _space.construct(new_vector + i, val);
+                    for (; i < end; i++)
+                        _space.construct(new_vector + i + 1, _vector[i]);
+                    _space.deallocate(this->_vector, this->_capacity);
+                    this->_vector = new_vector;
+                    this->_size = pos + 1;
+                    this->_capacity = pos + 1;
+                }
+                return this->_vector + pos; 
             }
-            void insert (iterator position, size_type n, const value_type& val) //A FAIRE
+            /*void insert (iterator position, size_type n, const value_type& val) //A FAIRE
             {
                 Le vecteur est étendu en insérant de nouveaux éléments avant l'élément à la position spécifiée ,
                 augmentant ainsi la taille du conteneur du nombre d'éléments insérés.
 
                 Cela provoque une réallocation automatique de l'espace de stockage alloué si -et seulement si-
-                la nouvelle taille du vecteur dépasse la capacité actuelle du vecteur .
-
+                la nouvelle taille du vecteur dépasse make r
                 Étant donné que les vecteurs utilisent un tableau comme stockage sous-jacent,
                 l'insertion d'éléments dans des positions autres que la fin du vecteur oblige le conteneur à déplacer
                 tous les éléments qui se trouvaient après la positionà leurs nouveaux postes. Il s'agit généralement d'une opération inefficace
