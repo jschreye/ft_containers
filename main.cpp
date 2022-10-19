@@ -6,14 +6,9 @@
 
 int main()
 {
-    std::vector<int> x;
-    ft::vector<int> y;
-    x.push_back(1);
-    x.push_back(2);
-    x.push_back(3);
-    y.push_back(1);
-    y.push_back(2);
-    y.push_back(3);
+    std::vector<int> x(2);
+    ft::vector<int> y(2);
+
     /*std::cout << "The first character is x '" << x.front() << "'.\n";
     std::cout << "The first character is x '" << x.back() << "'.\n";
     std::cout << "The first character is y '" << y.back() << "'.\n";
@@ -47,8 +42,8 @@ int main()
     y.insert(y.begin(), 3, 4);
     for (size_t i = 0; i < x.size(); i++)
         std::cout << "x :" << x[i] << " y :" << y[i] << std::endl;*/
-    x.insert(x.begin() + 5, 4, 9);
-    y.insert(y.begin() + 5, 9);
+    //x.insert(x.begin() + 5, 4, 9);
+    //y.insert(y.begin() + 5, 9);
     for (size_t i = 0; i < x.size(); i++)
         std::cout << "x :" << x[i] << std::endl;
     for (size_t i = 0; i < y.size(); i++)

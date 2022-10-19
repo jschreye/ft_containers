@@ -72,9 +72,15 @@ namespace ft
             //operator assignement
             vector& operator=(const vector& rhs)
             {
-                if(this == &rhs)
-                    return *this;
-            }//PAS FINI
+                if(this != &rhs)
+                {
+                    this->_capacity = rhs._capacity;
+                    this->_size = rhs._size;
+                    this->_space = rhs._space;
+                    this->_vector = rhs._vector;
+                }
+                return (*this);
+            }
 
             //iterator
             iterator begin()                        {return iterator(this->_vector);}
@@ -170,7 +176,7 @@ namespace ft
                 reserve(new_size);
                 for (size_t i = 0; i < new_size; i++)
                 {
-                    _space.construct(_vector + i, *first);
+                    _space.construct(_vector + i, first);
                     first++;
                 }
                 _size = new_size;
@@ -302,19 +308,8 @@ namespace ft
                 }  
             }
             template <class InputIterator>
-            /*void insert (iterator position, InputIterator first, InputIterator last); //A FAIRE
-                Le vecteur est étendu en insérant de nouveaux éléments avant l'élément à la position spécifiée ,
-                augmentant ainsi la taille du conteneur du nombre d'éléments insérés.
-
-                Cela provoque une réallocation automatique de l'espace de stockage alloué si -et seulement si-
-                la nouvelle taille du vecteur dépasse make r
-                Étant donné que les vecteurs utilisent un tableau comme stockage sous-jacent,
-                l'insertion d'éléments dans des positions autres que la fin du vecteur oblige le conteneur à déplacer
-                tous les éléments qui se trouvaient après la positionà leurs nouveaux postes. Il s'agit généralement d'une opération inefficace
-                par rapport à celle effectuée pour la même opération par d'autres types de conteneurs de séquence (tels que list ou forward_list ).
-
-                Les paramètres déterminent combien d'éléments sont insérés et à quelles valeurs ils sont initialisés :
-            */
+            void insert (iterator position, InputIterator first, InputIterator last);//A FAIRE
+            
             iterator erase (iterator position)
             {
                 size_t i = 0;
