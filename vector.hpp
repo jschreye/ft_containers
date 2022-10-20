@@ -1,6 +1,7 @@
 #ifndef VECTOR_HPP
 # define VECTOR_HPP
 
+#include "enable_if.hpp"
 #include <iostream>
 #include <memory>
 #include <vector>
@@ -50,14 +51,22 @@ namespace ft
             }
             
             template <class InputIterator>
-            vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type())
-            : _space(alloc)
+            vector (typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type first,
+                        InputIterator last, const allocator_type &alloc = allocator_type() ) : _space(alloc)
             {
-                assign(first, last);
+                size_type diff = last - first;
+                _vector = _space.allocate(diff);
+                _size = diff;
+                _capacity = diff;
+
+                for (size_t i = 0; i < diff; i++)
+                {
+                    _space.construct((_vector + i), *first++);
+                }
             }
             
             vector (const vector& x)
-            : _space(x._space), _vector(NULL), _size(0), _capacity(0)
+            : _space(x._space), _vector(NULL), _capacity(0), _size(0)
             {
                 *this = x;
             }
@@ -66,20 +75,16 @@ namespace ft
             ~vector() 
             {
                 clear();
-                _space.deallocate(_vector, this->_capacity);
+                if (this->capacity() != 0)
+                    _space.deallocate(_vector, _capacity);
             }
 
             //operator assignement
             vector& operator=(const vector& rhs)
             {
                 if(this != &rhs)
-                {
-                    this->_capacity = rhs._capacity;
-                    this->_size = rhs._size;
-                    this->_space = rhs._space;
-                    this->_vector = rhs._vector;
-                }
-                return (*this);
+                    this->assign(rhs.begin(), rhs.end());
+                return *this;
             }
 
             //iterator
@@ -148,9 +153,9 @@ namespace ft
 
             reference at (size_type n)
             {
-                if (n >= this->_size)
-                    throw std::out_of_range("Index used is out of range");
-                return (this->_vector[n]);
+                if (n >= _size || n < 0)
+                    throw std::out_of_range("vector");
+                return this->_vector[n];
             }
 
             const_reference at (size_type n) const
@@ -169,17 +174,21 @@ namespace ft
 
             //modifiers
             template <class InputIterator>
-            void assign (InputIterator first, InputIterator last)
+            void assign (typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type first,
+                         InputIterator last)
             {
-                clear();
-                size_type new_size = last - first;
-                reserve(new_size);
-                for (size_t i = 0; i < new_size; i++)
+                size_type diff = last - first;
+                this->clear();
+                if (diff > this->_capacity)
                 {
-                    _space.construct(_vector + i, first);
-                    first++;
+                    _space.deallocate(_vector, _capacity);
+                    _vector = _space.allocate(diff);
+                    this->_capacity = diff;
                 }
-                _size = new_size;
+                for (size_type i = 0; i < diff; i++) {
+                    _space.construct((_vector + i), *first++);
+                }
+                this->_size = diff;
             }
 
             void assign (size_type n, const value_type& val)
@@ -309,7 +318,7 @@ namespace ft
             }
             template <class InputIterator>
             void insert (iterator position, InputIterator first, InputIterator last);//A FAIRE
-            
+
             iterator erase (iterator position)
             {
                 size_t i = 0;
