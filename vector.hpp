@@ -1,10 +1,13 @@
 #ifndef VECTOR_HPP
 # define VECTOR_HPP
 
-#include "enable_if.hpp"
 #include <iostream>
 #include <memory>
 #include <vector>
+#include "iterator_traits.hpp"
+#include "enable_if.hpp"
+#include "iterator.hpp"
+#include "equal.hpp"
 namespace ft
 {
     template < class T, class Alloc = std::allocator<T> >
@@ -22,8 +25,8 @@ namespace ft
             typedef typename allocator_type::const_pointer      const_pointer;
             typedef pointer                                     iterator;
             typedef const_pointer                               const_iterator;
-            typedef std::reverse_iterator<iterator>             reverse_iterator;
-            typedef std::reverse_iterator<const_iterator>       const_reverse_iterator;
+            typedef ft::reverse_iterator<iterator>             reverse_iterator;
+            typedef ft::reverse_iterator<const_iterator>       const_reverse_iterator;
 
         private: // "variable"
 
@@ -227,97 +230,83 @@ namespace ft
 
             iterator insert (iterator position, const value_type& val)//A FAIRE
             {
-                pointer new_vector = NULL;
-                size_type pos = position - this->begin();
-                size_type end = this->end() - this->begin();
-                size_type i;
-                if (pos <= this->_size)
-                {
-                    new_vector = _space.allocate(this->_size + 1);
-                    for (i = 0; i < pos; i++)
-                        _space.construct(new_vector + i, this->_vector[i]);
-                    _space.construct(new_vector + i, val);
-                    for (; i < end; i++)
-                        _space.construct(new_vector + i + 1, this->_vector[i]);
-                    _space.deallocate(this->_vector, this->_capacity);
-                    this->_vector = new_vector;
-                    this->_size++;
-                    this->_capacity++;
-                }
-                else if (pos > this->_size)
-                {
-                    new_vector = _space.allocate(pos + 1); 
-                    for (i = 0; i < pos; i++)
-                        _space.construct(new_vector + i, _vector[i]);
-                    _space.construct(new_vector + i, val);
-                    for (; i < end; i++)
-                        _space.construct(new_vector + i + 1, _vector[i]);
-                    _space.deallocate(this->_vector, this->_capacity);
-                    this->_vector = new_vector;
-                    this->_size = pos + 1;
-                    this->_capacity = pos + 1;
-                }
-                return this->_vector + pos; 
+                insert(position, 1, val);
+                return position;
             }
+
             void insert (iterator position, size_type n, const value_type& val) //A FAIRE
             {
-                pointer new_vector = NULL;
-                size_type pos = position - this->begin();
-                size_type end = this->end() - this->begin();
-                size_type i = 0;
-                if (pos <= this->_size)
-                {
-                    new_vector = _space.allocate(this->_size + n);
-                    for (i = 0; i < pos; i++)
-                        _space.construct(new_vector + i, this->_vector[i]);
-                    for (; i - pos < n; i++)
-                        _space.construct(new_vector + i, val);
-                    for (; i < end + n; i++)
-                        _space.construct(new_vector + i, this->_vector[i - n]);
-                    _space.deallocate(this->_vector, this->_capacity);
-                    this->_vector = new_vector;
-                    this->_capacity = _capacity + n;
-                    this->_size = _size + n;
-                }
-                else if (pos > this->_size)
-                {
-                    new_vector = _space.allocate(pos + n);
-                    if (i > pos)
-                        for (i = 0; i < pos; i++)
-                        {
-                            std::cout << pos << " i = " << i << std::endl;
-                            _space.construct(new_vector + i, _vector[i - n]);
-                        }
-                    else if (i <= pos)
-                        for (i = 0; i < pos; i++)
-                        {
-                            std::cout << pos << " i2 = " << i << std::endl;
-                            _space.construct(new_vector + i, _vector[i]);
-                        }
-                    if (i >= pos)
-                    {
-                        for (; i - pos < n; i++)
-                        {
-                            std::cout << "a" << std::endl;
-                            _space.construct(new_vector + i, val);
-                        }
-                    }
-                    else if (i < pos)
-                        for (; pos - i < n; i++)
-                        {
-                            std::cout << "b" << std::endl;
-                            _space.construct(new_vector + i, val);
-                        }
-                    for (; i < end; i++)
-                        _space.construct(new_vector + i + 1, _vector[i - n]);
-                    _space.deallocate(this->_vector, this->_capacity);
-                    this->_vector = new_vector;
-                    this->_size = pos + n;
-                    this->_capacity = pos + n;
-                }  
+                if (n > max_size() || n + size() > max_size())
+                    throw std::length_error("Length error: vector::insert");
+                size_type start = ft::distance(begin(), position);
+                size_type end = size();
+                resize(size() + n);
+                ft::copy_backward(begin() + start, begin() + end, begin() + start + n);
+                ft::fill(begin() + start, begin() + start + n, val); 
             }
+
             template <class InputIterator>
-            void insert (iterator position, InputIterator first, InputIterator last);//A FAIRE
+            void insert (iterator position,
+            typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type first,
+            InputIterator last)
+            {
+                size_type n = last - first;
+                size_type distance = position - begin();
+                if (_size + n > _capacity)
+                {
+                    if (this->size() == 0)
+                    {
+                        this->_vector = _space.allocate(n);
+                        for (size_type i = 0; i < n; i++) {
+                            try {_space.construct(this->_vector + i, *first++);}
+                            catch(...)
+                            {
+                                _size = i;
+                                _capacity = n;
+                                this->clear();
+                                _space.deallocate(_vector, n);
+                                _capacity = 0;
+                                throw std::exception();
+                            }
+                        }
+                        this->_size = n;
+                        this->_capacity = n;
+                    }
+                    else {
+                        size_type old_cap = this->capacity();
+                        if (this->size() + n > this->capacity() * 2)
+                            this->_capacity = n + this->size();
+                        else
+                            this->_capacity *= 2;
+                        pointer tmp = _space.allocate(this->capacity());
+                        for (size_type i = 0; i < distance; i++)
+                            _space.construct(tmp + i, *(_vector + i));
+                        for (size_type i = 0; i < n; i++)
+                            _space.construct(tmp + i + distance, *first++);
+                        for (size_type i = 0; i + distance < this->size(); i++)
+                            _space.construct(tmp + distance + n + i, *(_vector + distance + i));
+                        for (size_type j = 0; j < this->size(); j++)
+                            _space.destroy(_vector + j);
+                        _size = this->size() + n;
+                        _space.deallocate(_vector, old_cap);
+                        _vector = tmp;
+                    }
+                }
+                else if (n != 0)
+                {
+                    size_type new_end = _size + n;
+                    for (iterator end_scope = this->end(); end_scope != position; end_scope--)
+                    {
+                        _space.construct(_vector + new_end--, *end_scope);
+                    }
+                    _space.construct(_vector + new_end, *position);
+                    for (size_type i = 0;i < n; i++)
+                    {
+                        *(position + i) = *first++;
+                    }
+                    _size += n;
+                }
+            }
 
             iterator erase (iterator position)
             {
@@ -384,55 +373,55 @@ namespace ft
     template <class T, class Alloc>
     bool operator== (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
     {
-        if (lhs == rhs)
-            return true;
-        else
+        if (lhs.size() != rhs.size())
             return false;
+        for (size_t i = 0; i < lhs.size(); i++)
+        {
+            if (lhs[i] != rhs[i])
+                return (false);
+        }
+        return true;
     }
 
     template <class T, class Alloc>
     bool operator!= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
     {
-        if (lhs != rhs)
-            return true;
-        else
-            return false;
+        return !(lhs == rhs);
     }
 
     template <class T, class Alloc>
     bool operator<  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
     {
-        if (lhs < rhs)
-            return true;
-        else
-            return false;
+        typename ft::vector<T>::const_iterator right = rhs.begin();
+        typename ft::vector<T>::const_iterator left = lhs.begin();
+
+        for (; left != lhs.end(); left++)
+        {
+            if (right == rhs.end() || *right < *left)
+                return false;
+            else if (*left < *right)
+                return true;
+            right++;
+        }
+        return right != rhs.end();
     }
 
     template <class T, class Alloc>
     bool operator<= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
     {
-        if (lhs <= rhs)
-            return true;
-        else
-            return false;
+        return !(rhs < lhs);
     }
 
     template <class T, class Alloc>
     bool operator>  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
     {
-        if (lhs > rhs)
-            return true;
-        else
-            return false;
+        return (rhs < lhs);
     }
 
     template <class T, class Alloc>
     bool operator>= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
     {
-        if (lhs >= rhs)
-            return true;
-        else
-            return false;
+        return !(lhs < rhs);
     }
 
 }
