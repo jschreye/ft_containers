@@ -1,5 +1,5 @@
-#ifndef PAIRE_HPP
-#define PAIRE_HPP
+#ifndef PAIR_HPP
+#define PAIR_HPP
 
 #include <iostream>
 namespace ft

@@ -1,155 +1,155 @@
-#include <stdio.h>
+
 #include <iostream>
 
 namespace ft
 {
-    template <class T> class Cl_Arbre;
+    template <class T> class Tree;
     template <class T> 
-    class Cl_Noeud
+    class Node
     { 
         private:
-        static int NbrNoeuds;
+        static int nbNode;
 
         public: 
-            Cl_Noeud *gauche; 
-            Cl_Noeud *droite; 
-            T valeur; 
-            inline T & val()const   {return valeur;}
-            Cl_Noeud(){NbrNoeuds++;};
-            ~Cl_Noeud(){delete gauche;delete droite;}
-            friend class Cl_Arbre <T>;
+            Node *left; 
+            Node *right; 
+            T value; 
+            inline T & val()const   {return value;}
+            Node(){nbNode++;}
+            ~Node(){delete left;delete right;}
+            friend class Tree <T>;
   };
 
     template<class T> 
-    int Cl_Noeud<T>::NbrNoeuds = 0;
+    int Node<T>::nbNode = 0;
     template<class T> 
-    class Cl_Arbre
+    class Tree
     { 
         private: 
-            Cl_Noeud <T> *racine; 
-            void Inserer (Cl_Noeud <T> *); 
-            void Balayage(Cl_Noeud <T> *);
-            Cl_Noeud <T> *DonnepRacine()const{return racine;}
-            Cl_Noeud <T> *Rechercher (const T)const; 
+            Node <T> *root; 
+            void insert (Node <T> *); 
+            void scanning(Node <T> *);
+            Node <T> *getRoot()const{return root;}
+            Node <T> *search (const T)const; 
 
         public: 
-            Cl_Arbre (){racine = NULL;} //constructeur
-            ~Cl_Arbre (){delete racine;} //constructeur
-            void Creer (const T); 
-            void Supprimer(const T); 
-            void Affichage(void); 
-            void NbrNoeuds(void){std::cout << Cl_Noeud<T>::NbrNoeuds;}; 
+            Tree (){root = NULL;} //constructeur
+            ~Tree (){delete root;} //constructeur
+            void create (const T); 
+            void deleteNode(const T); 
+            void display(void); 
+            void nbNode(void){std::cout << Node<T>::nbNode;}; 
     };
 
     template <class T> 
-    void Cl_Arbre<T>::Affichage()
+    void Tree<T>::display()
     { 
-        if(racine!=NULL) 
-            Balayage(racine);
+        if(root!=NULL) 
+            scanning(root);
         else
             std::cout << "Arbre vide!" << std::endl;
     }
 
     template <class T> 
-    void Cl_Arbre<T>::Balayage(Cl_Noeud<T> *pNoeud)
+    void Tree<T>::scanning(Node<T> *ptrNode)
     { 
 
-        if (pNoeud->gauche) 
-            Balayage(pNoeud->gauche); 
-        if (pNoeud)
-            std::cout << pNoeud->valeur << "\n"; 
-        if (pNoeud->droite)
-            Balayage(pNoeud->droite); 
+        if (ptrNode->left) 
+            scanning(ptrNode->left); 
+        if (ptrNode)
+            std::cout << ptrNode->value << "\n"; 
+        if (ptrNode->right)
+            scanning(ptrNode->right); 
     }
 
     template <class T> 
-    void Cl_Arbre <T>::Creer(const T val)
+    void Tree <T>::create(const T val)
     { 
-        Cl_Noeud <T> * pNoeudTmp = new Cl_Noeud <T>; 
-        pNoeudTmp->gauche = NULL; 
-        pNoeudTmp->droite = NULL; 
-        pNoeudTmp->valeur = val;  
-        Inserer (pNoeudTmp); 
+        Node <T> * ptrNodeTmp = new Node <T>; 
+        ptrNodeTmp->left = NULL; 
+        ptrNodeTmp->right = NULL; 
+        ptrNodeTmp->value = val;  
+        insert (ptrNodeTmp); 
     }
 
     template <class T> 
-    void Cl_Arbre<T>::Inserer(Cl_Noeud <T> *pNoeud)
+    void Tree<T>::insert(Node <T> *ptrNode)
     { 
-        if (!pNoeud)
+        if (!ptrNode)
             return; 
-        if (racine == NULL)
+        if (root == NULL)
         { 
-            racine = pNoeud; 
+            root = ptrNode; 
             return; 
         } 
-        Cl_Noeud<T> * courant = racine; 
-        Cl_Noeud<T> * precedent = NULL; 
-        while (courant)
+        Node<T> * current = root; 
+        Node<T> * previous = NULL; 
+        while (current)
         { 
-            precedent = courant; 
-            if (pNoeud->valeur < courant->valeur) 
-            courant = courant->gauche; 
+            previous = current; 
+            if (ptrNode->value < current->value) 
+                current = current->left; 
             else 
-                courant = courant->droite; 
+                current = current->right; 
         }
-        if(pNoeud->valeur < precedent->valeur) 
-            precedent->gauche = pNoeud; 
+        if (ptrNode->value < previous->value) 
+            previous->left = ptrNode; 
         else 
-            precedent->droite = pNoeud; 
+            previous->right = ptrNode; 
     }
 
     template<class T> 
-    void Cl_Arbre<T>::Supprimer(const T val)
+    void Tree<T>::deleteNode(const T val)
     { 
-        Cl_Noeud<T> *pNoeud = Rechercher(val);
-        if (!pNoeud)
+        Node<T> *ptrNode = search(val);
+        if (!ptrNode)
         {
-            std::cout << "Recherche infructueuse! impossible de trouver cette valeur." << std::endl;
+            std::cout << "Unsuccessful search! Cannot find this value." << std::endl;
             return; 
         }
-        Cl_Noeud<T> *droite = pNoeud->droite; 
-        Cl_Noeud<T> *gauche = pNoeud->gauche; 
-        Cl_Noeud<T> *courant = racine; 
-        if(pNoeud == racine)
+        Node<T> *right = ptrNode->right; 
+        Node<T> *left = ptrNode->left; 
+        Node<T> *current = root; 
+        if (ptrNode == root)
         { 
-            racine = droite; 
-            if(gauche)
-                Inserer(gauche); 
-            delete pNoeud;
+            root = right; 
+            if (left)
+                insert(left); 
+            delete ptrNode;
             return; 
         }
-        while(courant)
+        while (current)
         {
-            if(courant->droite == pNoeud || courant->gauche == pNoeud)
+            if (current->right == ptrNode || current->left == ptrNode)
                 break;
-            if(pNoeud->valeur >= courant->valeur) 
-                courant = courant->droite; 
+            if (ptrNode->value >= current->value) 
+                current = current->right; 
             else 
-                courant = courant->gauche; 
+                current = current->left; 
         }
 
-        if(courant->droite == pNoeud) 
-            courant->droite = droite; 
+        if (current->right == ptrNode) 
+            current->right = right; 
         else 
-            courant->gauche = droite; 
-        if(gauche)
-            Inserer(gauche); 
-        delete pNoeud; 
-        std::cout << "Noeud effacé!" << std::endl;
+            current->left = right; 
+        if (left)
+            insert(left); 
+        delete ptrNode; 
+        std::cout << "Deleted node!" << std::endl;
     }
     
     template <class T> 
-    Cl_Noeud<T> *Cl_Arbre<T>::Rechercher(const T val)const
+    Node<T> *Tree<T>::search(const T val)const
     { 
-        Cl_Noeud<T> *courant = racine; 
-        while(courant)
+        Node<T> *current = root; 
+        while(current)
         { 
-            if(courant->valeur == val) 
-                return courant; 
-            if (val < courant->valeur) 
-                courant = courant->gauche; 
+            if (current->value == val) 
+                return current; 
+            if (val < current->value) 
+                current = current->left; 
             else 
-                courant = courant->droite; 
+                current = current->right; 
         } 
         return NULL; 
     }

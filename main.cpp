@@ -1,10 +1,9 @@
 #include "vector.hpp"
 //#include "stack.hpp"
-#include <map>
+#include "map.hpp"
 #include <vector>
 #include <iostream>
 #include <memory>
-#include "tree.hpp"
 
 int main()
 {
@@ -54,28 +53,7 @@ int main()
     for (size_t i = 0; i < y.size(); i++)
         std::cout << " y :" << y[i] << std::endl;*/
   //On cree un nouvel arbre, qui contiendra des entiers 
-    ft::Cl_Arbre <char> arbre; 
-  
-  //On le remplit de valeurs 
-    arbre.Creer('C'); 
-    arbre.Creer('A'); 
-    arbre.Creer('X'); 
-    arbre.Creer('Z'); 
-    arbre.Creer('T'); 
-    arbre.Creer('I'); 
-    arbre.Creer('H'); 
-    arbre.Creer('M');
-  
-  //En affichant, on se rend compte que l arbre est trié 
-  //Magique ! 
-    arbre.Affichage(); 
-    std::cout << "\nFIN PROGRAM 1" << std::endl;
-    arbre.Supprimer('Z'); 
-    arbre.Affichage(); 
-    std::cout << "\nFIN PROGRAM 2" << std::endl;
-    arbre.NbrNoeuds();
 
-    return (0);
 }
 
 
