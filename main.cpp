@@ -34,6 +34,56 @@ int main()
     for(size_t i = 0; ft_v1[i]; i++)
         std::cout << "ft_v1 = " << ft_v1[i] << std::endl;
     std::cout << std::endl;
+    if (std_v1 == std_v2)
+        std::cout << "std = true" << std::endl;
+    else 
+        std::cout << "std = false" << std::endl;
+    if (std_v1 != std_v2)
+        std::cout << "std = true" << std::endl;
+    else 
+        std::cout << "std = false" << std::endl;
+    if (std_v1 < std_v2)
+        std::cout << "std = true" << std::endl;
+    else 
+        std::cout << "std = false" << std::endl;
+    if (std_v1 > std_v2)
+        std::cout << "std = true" << std::endl;
+    else 
+        std::cout << "std = false" << std::endl;
+    if (std_v1 <= std_v2)
+        std::cout << "std = true" << std::endl;
+    else 
+        std::cout << "std = false" << std::endl;
+    if (std_v1 >= std_v2)
+        std::cout << "std = true" << std::endl;
+    else 
+        std::cout << "std = false" << std::endl;
+    std::cout << std::endl;
+    if (ft_v1 == ft_v2)
+        std::cout << "ft = true" << std::endl;
+    else 
+        std::cout << "ft = false" << std::endl;
+    if (ft_v1 != ft_v2)
+        std::cout << "ft = true" << std::endl;
+    else 
+        std::cout << "ft = false" << std::endl;
+    if (ft_v1 < ft_v2)
+        std::cout << "ft = true" << std::endl;
+    else 
+        std::cout << "ft = false" << std::endl;
+    if (ft_v1 > ft_v2)
+        std::cout << "ft = true" << std::endl;
+    else 
+        std::cout << "ft = false" << std::endl;
+    if (ft_v1 <= ft_v2)
+        std::cout << "ft = true" << std::endl;
+    else 
+        std::cout << "ft = false" << std::endl;
+    if (ft_v1 >= ft_v2)
+        std::cout << "ft = true" << std::endl;
+    else 
+        std::cout << "ft = false" << std::endl;
+    std::cout << std::endl;
 
     std::cout << "................ITERATOR...................." << std::endl;
     std::cout << std::endl;
@@ -100,7 +150,9 @@ int main()
     std_v2.reserve(20);
     ft_v2.reserve(20);
     std::cout << std_v2.capacity() << std::endl;
-    std::cout << ft_v2.capacity() << std::endl; 
+    std::cout << ft_v2.capacity() << std::endl;
+    std_v2.reserve(12);
+    ft_v2.reserve(12);
     std::cout << std::endl;
 
     std::cout << "...................AT........................" << std::endl;
@@ -138,31 +190,29 @@ int main()
     std::cout << std::endl;
 
     std::cout << "..................PUSH_BACK................" << std::endl;
-    for(size_t i = 0; i < 10; i++)
-        std_v2.push_back(3);
-    for(size_t i = 0; i < 10; i++)
-        ft_v2.push_back(3);
-    for(size_t i = 0; std_v2[i]; i++)
-        std::cout << "std_v2 = " << std_v2[i] << std::endl;
+    std_v1.push_back(999);
+    ft_v1.push_back(999);
+    for(size_t i = 0; std_v1[i]; i++)
+        std::cout << "std_v1 = " << std_v1[i] << std::endl;
     std::cout << std::endl;
-    for(size_t i = 0; ft_v2[i]; i++)
-        std::cout << "ft_v2 = " << ft_v2[i] << std::endl;
-    std::cout << std::endl << std::endl;
+    for(size_t i = 0; ft_v1[i]; i++)
+        std::cout << "ft_v1 = " << ft_v1[i] << std::endl;
+    std::cout << std::endl;
 
     std::cout << "..................POP_BACK................" << std::endl;
-    for(size_t i = 0; std_v2[i]; i++)
-        std::cout << "std_v2 = " << std_v2[i] << std::endl;
+    std::cout << "std_v1 = " << std_v1.size() << std::endl;
+    std::cout << "ft_v1 = " << ft_v1.size() << std::endl;
     std::cout << std::endl;
-    for(size_t i = 0; ft_v2[i]; i++)
-        std::cout << "ft_v2 = " << ft_v2[i] << std::endl;
+    std_v1.pop_back();
+    ft_v1.pop_back();
+    for(size_t i = 0; std_v1[i]; i++)
+        std::cout << "std_v1 = " << std_v1[i] << std::endl;
     std::cout << std::endl;
-    std_v2.pop_back();
-    ft_v2.pop_back();
-    for(size_t i = 0; std_v2[i]; i++)
-        std::cout << "std_v2 = " << std_v2[i] << std::endl;
+    for(size_t i = 0; ft_v1[i]; i++)
+        std::cout << "ft_v1 = " << ft_v1[i] << std::endl;
     std::cout << std::endl;
-    for(size_t i = 0; ft_v2[i]; i++)
-        std::cout << "ft_v2 = " << ft_v2[i] << std::endl;
+    std::cout << "std_v1 = " << std_v1.size() << std::endl;
+    std::cout << "ft_v1 = " << ft_v1.size() << std::endl;
     std::cout << std::endl;
 
     std::cout << ".................INSERT......................" << std::endl;
@@ -192,6 +242,12 @@ int main()
     std::cout << std::endl;
 
     std::cout << "...................ERASE...................." << std::endl;
+    for(size_t i = 0; std_v2[i]; i++)
+        std::cout << "std_v2 = " << std_v2[i] << std::endl;
+    std::cout << std::endl;
+    for(size_t i = 0; ft_v2[i]; i++)
+        std::cout << "ft_v2 = " << ft_v2[i] << std::endl;
+    std::cout << std::endl;
     std_v2.erase(std_v2.begin() + 1);
     ft_v2.erase(ft_v2.begin() + 1);
     for(size_t i = 0; std_v2[i]; i++)
@@ -199,6 +255,40 @@ int main()
     std::cout << std::endl;
     for(size_t i = 0; ft_v2[i]; i++)
         std::cout << "ft_v2 = " << ft_v2[i] << std::endl;
+    std::cout << std::endl;
+    std_v2.erase(std_v2.begin(), std_v2.begin() + 3);
+    ft_v2.erase(ft_v2.begin(), ft_v2.begin() + 3);
+    for(size_t i = 0; std_v2[i]; i++)
+        std::cout << "std_v2 = " << std_v2[i] << std::endl;
+    std::cout << std::endl;
+    for(size_t i = 0; ft_v2[i]; i++)
+        std::cout << "ft_v2 = " << ft_v2[i] << std::endl;
+    std::cout << std::endl;
+
+    std::cout << "..................SWAP......................." << std::endl << std::endl;
+    for(size_t i = 0; std_v2[i]; i++)
+        std::cout << "std_v2 = " << std_v2[i] << std::endl;
+    std::cout << std::endl;
+    for(size_t i = 0; ft_v2[i]; i++)
+        std::cout << "ft_v2 = " << ft_v2[i] << std::endl;
+    std::cout << std::endl;
+    std_v2.swap(std_v1);
+    ft_v2.swap(ft_v1);
+    for(size_t i = 0; std_v2[i]; i++)
+        std::cout << "std_v2 = " << std_v2[i] << std::endl;
+    std::cout << std::endl;
+    for(size_t i = 0; ft_v2[i]; i++)
+        std::cout << "ft_v2 = " << ft_v2[i] << std::endl;
+    std::cout << std::endl;
+    std::swap(std_v1, std_v2);
+    ft::swap(ft_v1, ft_v2);
+    std::cout << std::endl;
+
+    std::cout << "..............GET_ALLOCATOR.................." << std::endl << std::endl;
+    int *std_p = std_v2.get_allocator().allocate(5);
+    int *ft_p = ft_v2.get_allocator().allocate(5);
+    std::cout << std_p << std::endl;
+    std::cout << ft_p << std::endl;
     std::cout << std::endl;
 
     std::cout << "...................MAP......................." << std::endl << std::endl;
