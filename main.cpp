@@ -4,56 +4,221 @@
 #include <vector>
 #include <iostream>
 #include <memory>
+#include <map>
 
 int main()
 {
-    /*std::vector<int> x;
-    ft::vector<int> y;
-    y.push_back(0);
-    y.push_back(1);
-    y.push_back(2);
-    x.push_back(0);
-    x.push_back(1);
-    x.push_back(2);
-    
-    std::cout << "The first character is x '" << x.front() << "'.\n";
-    std::cout << "The first character is x '" << x.back() << "'.\n";
-    std::cout << "The first character is y '" << y.back() << "'.\n";
-    std::cout << "The first character is y '" << y.front() << "'.\n";
-    x.pop_back();
-    y.pop_back();
-    std::cout << "The first character is x '" << x.front() << "'.\n";
-    std::cout << "The first character is x '" << x.back() << "'.\n";
-    std::cout << "The first character is y '" << y.front() << "'.\n";
-    std::cout << "The first character is y '" << y.back() << "'.\n";
-    y.push_back('c');
-    std::cout << "The first character is y '" << y.back() << "'.\n";
-    y.swap(y);
-    std::cout << "The first character is x '" << x.front() << "'.\n";
-    std::cout << "The first character is x '" << x.back() << "'.\n";
-    std::cout << "The first character is y '" << y.front() << "'.\n";
-    std::cout << "The first character is y '" << y.back() << "'.\n";
-    x.swap(x);
-    std::cout << "The first character is x '" << x.front() << "'.\n";
-    std::cout << "The first character is x '" << x.back() << "'.\n";
-    std::cout << "The first character is y '" << y.front() << "'.\n";
-    std::cout << "The first character is y '" << y.back() << "'.\n";
-    x.assign(2, 1111);
-    const std::string extra(9, 'z');
-    y.assign(extra.begin(), extra.end());
-    for (size_t i = 0; i < y.size(); i++)
-        std::cout << y[i] << " il y a ca " << std::endl;
-    for (size_t i = 0; i < x.size(); i++)
-        std::cout << x[i] << " il y a ca dans x " << std::endl;
-    x.insert(x.begin() +3 , 5, 9);
-    y.insert(y.begin()+3, 5, 9);
-    
-    for (size_t i = 0; i < x.size(); i++)
-        std::cout << "x :" << x[i] << std::endl;
-    for (size_t i = 0; i < y.size(); i++)
-        std::cout << " y :" << y[i] << std::endl;*/
-  //On cree un nouvel arbre, qui contiendra des entiers 
+    std::cout << "..................VECTOR......................" << std::endl << std::endl;
+    std::cout << "................CONSTRUCTOR..................." << std::endl;
+    std::vector<int> std_v1;
+    std::vector<int> std_v2(2, 2);
+    std::vector<int> std_v3(std_v2.begin(), std_v2.end());
+    std::vector<int> std_v4(std_v3);
+    ft::vector<int> ft_v1;
+    ft::vector<int> ft_v2(2, 2);
+    ft::vector<int> ft_v3(ft_v2.begin(), ft_v2.end());
+    ft::vector<int> ft_v4(ft_v3);
+    for(size_t i = 0; std_v4[i]; i++)
+        std::cout << "std_v4 = " << std_v4[i] << std::endl;
+    std::cout << std::endl;
+    for(size_t i = 0; ft_v4[i]; i++)
+        std::cout << "ft_v4 = " << ft_v4[i] << std::endl;
+    std::cout << std::endl;
 
+    std::cout << "................OPERATOR..................." << std::endl;
+    std_v1 = std_v4;
+    ft_v1 = ft_v4;
+    for(size_t i = 0; std_v1[i]; i++)
+        std::cout << "std_v1 = " << std_v1[i] << std::endl;
+    std::cout << std::endl;
+    for(size_t i = 0; ft_v1[i]; i++)
+        std::cout << "ft_v1 = " << ft_v1[i] << std::endl;
+    std::cout << std::endl;
+
+    std::cout << "................ITERATOR...................." << std::endl;
+    std::cout << std::endl;
+
+    std::cout << "..................SIZE......................" << std::endl;
+    std::cout << "std_v2 = " << std_v2.size() << std::endl;
+    std::cout << "ft_v2 = " << ft_v2.size() << std::endl;
+    std::cout << std::endl;
+    std::cout << "std_v2 = " << std_v2.max_size() << std::endl;
+    std::cout << "ft_v2 = " << ft_v2.max_size() << std::endl;
+    std::cout << std::endl;
+
+    std::cout << "..................RESIZE......................" << std::endl;
+    std_v2.clear();
+    ft_v2.clear();
+    for(size_t i = 1; i < 10; i++)
+        std_v2.push_back(i);
+    for(size_t i = 1; i < 10; i++)
+        ft_v2.push_back(i);
+    std::cout << std::endl;
+    std_v2.resize(5);
+    ft_v2.resize(5);
+    for(size_t i = 0; std_v2[i]; i++)
+        std::cout << "std_v2 = " << std_v2[i] << std::endl;
+    std::cout << std::endl;
+    for(size_t i = 0; ft_v2[i]; i++)
+        std::cout << "ft_v2 = " << ft_v2[i] << std::endl;
+    std::cout << std::endl;
+    std_v2.resize(8, 100);
+    ft_v2.resize(8, 100);
+    for(size_t i = 0; std_v2[i]; i++)
+        std::cout << "std_v2 = " << std_v2[i] << std::endl;
+    std::cout << std::endl;
+    for(size_t i = 0; ft_v2[i]; i++)
+        std::cout << "ft_v2 = " << ft_v2[i] << std::endl;
+    std::cout << std::endl;
+    std_v2.resize(12);
+    ft_v2.resize(12);
+    for(size_t i = 0; std_v2[i]; i++)
+        std::cout << "std_v2 = " << std_v2[i] << std::endl;
+    std::cout << std::endl;
+    for(size_t i = 0; ft_v2[i]; i++)
+        std::cout << "ft_v2 = " << ft_v2[i] << std::endl;
+    std::cout << std::endl;
+
+    std::cout << ".................CAPACITY...................." << std::endl;
+    std::cout << std_v2.capacity() << std::endl;
+    std::cout << ft_v2.capacity() << std::endl; 
+    std::cout << std::endl;
+
+    std::cout << ".................EMPTY......................." << std::endl;
+    std::cout << std_v2.empty() << std::endl;
+    std::cout << ft_v2.empty() << std::endl;
+    //std_v2.clear();
+    //ft_v2.clear();
+    std::cout << std_v2.empty() << std::endl;
+    std::cout << ft_v2.empty() << std::endl;
+    std::cout << std::endl;
+
+    std::cout << "................RESERVE......................" << std::endl;
+    std::cout << std_v2.capacity() << std::endl;
+    std::cout << ft_v2.capacity() << std::endl; 
+    std::cout << std::endl;
+    std_v2.reserve(20);
+    ft_v2.reserve(20);
+    std::cout << std_v2.capacity() << std::endl;
+    std::cout << ft_v2.capacity() << std::endl; 
+    std::cout << std::endl;
+
+    std::cout << "...................AT........................" << std::endl;
+    std::cout << std_v2.at(9) << std::endl;
+    std::cout << ft_v2.at(9) << std::endl;
+    std::cout << std::endl;
+
+    std::cout << "................FRONT/BACK/DATA.............." << std::endl;
+    std::cout << std_v2.front() << std::endl;
+    std::cout << ft_v2.front() << std::endl;
+    std::cout << std::endl;
+    std::cout << std_v2.back() << std::endl;
+    std::cout << ft_v2.back() << std::endl;
+    std::cout << std::endl;
+    std::cout << std_v2.data() << std::endl;
+    std::cout << ft_v2.data() << std::endl;
+    std::cout << std::endl;
+
+    std::cout << ".................ASSIGNE....................." << std::endl;
+    std_v2.assign(5, 99);
+    ft_v2.assign(5, 99);   
+    for(size_t i = 0; std_v2[i]; i++)
+        std::cout << "std_v2 = " << std_v2[i] << std::endl;
+    std::cout << std::endl;
+    for(size_t i = 0; ft_v2[i]; i++)
+        std::cout << "ft_v2 = " << ft_v2[i] << std::endl;
+    std::cout << std::endl;
+    std_v2.assign(std_v1.begin(), std_v1.end());
+    ft_v2.assign(ft_v1.begin(), ft_v1.end());   
+    for(size_t i = 0; std_v2[i]; i++)
+        std::cout << "std_v2 = " << std_v2[i] << std::endl;
+    std::cout << std::endl;
+    for(size_t i = 0; ft_v2[i]; i++)
+        std::cout << "ft_v2 = " << ft_v2[i] << std::endl;
+    std::cout << std::endl;
+
+    std::cout << "..................PUSH_BACK................" << std::endl;
+    for(size_t i = 0; i < 10; i++)
+        std_v2.push_back(3);
+    for(size_t i = 0; i < 10; i++)
+        ft_v2.push_back(3);
+    for(size_t i = 0; std_v2[i]; i++)
+        std::cout << "std_v2 = " << std_v2[i] << std::endl;
+    std::cout << std::endl;
+    for(size_t i = 0; ft_v2[i]; i++)
+        std::cout << "ft_v2 = " << ft_v2[i] << std::endl;
+    std::cout << std::endl << std::endl;
+
+    std::cout << "..................POP_BACK................" << std::endl;
+    for(size_t i = 0; std_v2[i]; i++)
+        std::cout << "std_v2 = " << std_v2[i] << std::endl;
+    std::cout << std::endl;
+    for(size_t i = 0; ft_v2[i]; i++)
+        std::cout << "ft_v2 = " << ft_v2[i] << std::endl;
+    std::cout << std::endl;
+    std_v2.pop_back();
+    ft_v2.pop_back();
+    for(size_t i = 0; std_v2[i]; i++)
+        std::cout << "std_v2 = " << std_v2[i] << std::endl;
+    std::cout << std::endl;
+    for(size_t i = 0; ft_v2[i]; i++)
+        std::cout << "ft_v2 = " << ft_v2[i] << std::endl;
+    std::cout << std::endl;
+
+    std::cout << ".................INSERT......................" << std::endl;
+    std_v2.insert(std_v2.begin() + 1, 10);
+    ft_v2.insert(ft_v2.begin() + 1, 10);
+    for(size_t i = 0; std_v2[i]; i++)
+        std::cout << "std_v2 = " << std_v2[i] << std::endl;
+    std::cout << std::endl;
+    for(size_t i = 0; ft_v2[i]; i++)
+        std::cout << "ft_v2 = " << ft_v2[i] << std::endl;
+    std::cout << std::endl;
+    std_v2.insert(std_v2.begin() + 1, 2, 8);
+    ft_v2.insert(ft_v2.begin() + 1, 2, 8);
+    for(size_t i = 0; std_v2[i]; i++)
+        std::cout << "std_v2 = " << std_v2[i] << std::endl;
+    std::cout << std::endl;
+    for(size_t i = 0; ft_v2[i]; i++)
+        std::cout << "ft_v2 = " << ft_v2[i] << std::endl;
+    std::cout << std::endl;
+    std_v2.insert(std_v2.begin(), std_v1.begin(), std_v1.end());
+    ft_v2.insert(ft_v2.begin(), ft_v1.begin(), ft_v1.end());
+    for(size_t i = 0; std_v2[i]; i++)
+        std::cout << "std_v2 = " << std_v2[i] << std::endl;
+    std::cout << std::endl;
+    for(size_t i = 0; ft_v2[i]; i++)
+        std::cout << "ft_v2 = " << ft_v2[i] << std::endl;
+    std::cout << std::endl;
+
+    std::cout << "...................ERASE...................." << std::endl;
+    std_v2.erase(std_v2.begin() + 1);
+    ft_v2.erase(ft_v2.begin() + 1);
+    for(size_t i = 0; std_v2[i]; i++)
+        std::cout << "std_v2 = " << std_v2[i] << std::endl;
+    std::cout << std::endl;
+    for(size_t i = 0; ft_v2[i]; i++)
+        std::cout << "ft_v2 = " << ft_v2[i] << std::endl;
+    std::cout << std::endl;
+
+    std::cout << "...................MAP......................." << std::endl << std::endl;
+    std::map <std::string, int> map1;
+    ft::map <std::string, int> map2;
+    map1["cat"] = 1;
+    map1["chien"] = 2;
+    map1.insert(std::make_pair("chat", 3));
+    map2["cat"] = 1;
+    map2["chien"] = 2;
+    map2.insert(ft::make_pair("chat", 3));
+    std::map<std::string, int>::iterator it;
+    for(it = map1.begin(); it != map1.end(); it++)
+        std::cout << it->first << " => " << it->second << std::endl;
+    ft::map<std::string, int>::iterator it2;
+    for(it2 = map2.begin(); it2 != map2.end(); it2++)
+        std::cout << it2->first << " => " << it2->second << std::endl;
+
+
+   
 }
 
 
