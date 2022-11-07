@@ -57,7 +57,7 @@ namespace ft
             vector (typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type first,
                         InputIterator last, const allocator_type &alloc = allocator_type() ) : _space(alloc)
             {
-                size_type diff = last - first;
+                size_type diff = ft::distance(first, last);
                 _vector = _space.allocate(diff);
                 _size = diff;
                 _capacity = diff;
@@ -180,7 +180,7 @@ namespace ft
             void assign (typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type first,
                          InputIterator last)
             {
-                size_type diff = last - first;
+                size_type diff = ft::distance(first, last);
                 this->clear();
                 if (diff > this->_capacity)
                 {
@@ -250,8 +250,8 @@ namespace ft
             typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type first,
             InputIterator last)
             {
-                size_type n = last - first;
-                size_type distance = position - begin();
+                size_type n = ft::distance(first, last);
+                size_type distance = ft::distance(begin(), position);
                 if (_size + n > _capacity)
                 {
                     if (this->size() == 0)
@@ -310,27 +310,20 @@ namespace ft
 
             iterator erase (iterator position)
             {
-                size_t i = 0;
-                size_type pos = position - begin();
-                _space.destroy(_vector + pos);
-                for (i = pos; i <= _size - 1; i++)
-                    *(_vector + i) = *(_vector + i + 1);
-                this->_size--;
-                return (begin() + pos);
+                return (erase(position, position + 1));
             }
 
             iterator erase (iterator first, iterator last)
             {
-                size_type size_delete = 0;
-                for (iterator it = first; it != last; it++) {
-                    _space.destroy(&(*it));
-                    size_delete++;
+                size_type size_delete = ft::distance(first, last);
+                pointer tmp = this->_vector + (size() - size_delete);
+                ft::copy(last, end(), first);
+                while(tmp != end())
+                {
+                    this->_space.destroy(tmp);
+                    tmp++;
                 }
-                for (iterator it = first; last != this->end(); last++) {
-                    *it = *last;
-                    it++;
-                }
-                this->_size -= size_delete;
+                this->_size -= ft::distance(first, last);
                 return (first);                
             }
 
@@ -375,12 +368,7 @@ namespace ft
     {
         if (lhs.size() != rhs.size())
             return false;
-        for (size_t i = 0; i < lhs.size(); i++)
-        {
-            if (lhs[i] != rhs[i])
-                return (false);
-        }
-        return true;
+        return std::equal(lhs.begin(), lhs.end(), rhs.begin());
     }
 
     template <class T, class Alloc>
@@ -392,19 +380,9 @@ namespace ft
     template <class T, class Alloc>
     bool operator<  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
     {
-        typename ft::vector<T>::const_iterator right = rhs.begin();
-        typename ft::vector<T>::const_iterator left = lhs.begin();
-
-        for (; left != lhs.end(); left++)
-        {
-            if (right == rhs.end() || *right < *left)
-                return false;
-            else if (*left < *right)
-                return true;
-            right++;
-        }
-        return right != rhs.end();
+        return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
     }
+
 
     template <class T, class Alloc>
     bool operator<= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
@@ -421,7 +399,7 @@ namespace ft
     template <class T, class Alloc>
     bool operator>= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
     {
-        return !(lhs < rhs);
+        return !(rhs > lhs);
     }
 
 }
