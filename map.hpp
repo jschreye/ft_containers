@@ -148,7 +148,7 @@ namespace ft
 			}
 		}
 
-		void erase (iterator position)
+		void 		erase (iterator position)
 		{
 			erase((*position).first);
 		}

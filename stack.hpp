@@ -1,55 +1,115 @@
-#ifndef STACK_HPP
-# define STACK_HPP
+#ifndef FT_STACK_HPP
+#define FT_STACK_HPP
 
-#include <iostream>
 #include "vector.hpp"
+#include <cstddef>
 
 namespace ft
 {
-    template <class T, class Container = vector<T> >
+
+// TODO: tests
+
+    template<class T, class Container = ft::vector<T> >
     class stack
     {
         private:
 
+            Container	_c;
+
         public:
+            stack()
+            {
 
-            //constructor
-            explicit stack (const container_type& ctnr = container_type());
+            }
 
-            //function membre
-            bool empty() const;
-            size_type size() const;
-            value_type& top();
-            const value_type& top() const;
-            void push (const value_type& val);
+            stack(const stack &)
+            {
 
-            template <class... Args>
-            void emplace (Args&&... args);
-            
-            void pop();
-            void swap (stack& x) noexcept(/*see below*/);
+            }
+            stack &operator=(const stack &)
+            {
+
+            }
+
+            ~stack()
+            {
+
+            }
+
+            bool empty() const
+            {
+                return _c.empty();
+            }
+
+            size_t size() const
+            {
+                return _c.size();
+            }
+
+            T &top()
+            {
+                return _c.back();
+            }
+
+            const T &top() const
+            {
+                return _c.back();
+            }
+
+            void push (const T & val)
+            {
+                _c.push_back(val);
+            }
+
+            void pop()
+            {
+                _c.pop_back();
+            }
+
+            friend bool operator==(const stack<T, Container>& lhs, const stack<T, Container>& rhs);
+            friend bool operator!=(const stack<T, Container>& lhs, const stack<T, Container>& rhs);
+            friend bool operator<(const stack<T, Container>& lhs, const stack<T, Container>& rhs);
+            friend bool operator<=(const stack<T, Container>& lhs, const stack<T, Container>& rhs);
+            friend bool operator>(const stack<T, Container>& lhs, const stack<T, Container>& rhs);
+            friend bool operator>=(const stack<T, Container>& lhs, const stack<T, Container>& rhs);
     };
-};
 
-template <class T, class Container>
-void swap (stack<T,Container>& x, stack<T,Container>& y) noexcept(noexcept(x.swap(y)));
+    template<class T, class Container>
+    bool operator==(const stack<T, Container>& lhs, const stack<T, Container>& rhs)
+    {
+        return (lhs._c == rhs._c);
+    }
 
-template <class T, class Container>
-bool operator== (const stack<T,Container>& lhs, const stack<T,Container>& rhs);
+    template<class T, class Container>
+    bool operator!=(const stack<T, Container>& lhs, const stack<T, Container>& rhs)
+    {
+        return !(lhs == rhs);
+    }
 
-template <class T, class Container>
-bool operator!= (const stack<T,Container>& lhs, const stack<T,Container>& rhs);
-	
-template <class T, class Container>
-bool operator<  (const stack<T,Container>& lhs, const stack<T,Container>& rhs);
+    template<class T, class Container>
+    bool operator<(const stack<T, Container>& lhs, const stack<T, Container>& rhs)
+    {
+        return lhs._c < rhs._c;
+    }
 
-template <class T, class Container>
-bool operator<= (const stack<T,Container>& lhs, const stack<T,Container>& rhs);
-	
-template <class T, class Container>
-bool operator>  (const stack<T,Container>& lhs, const stack<T,Container>& rhs);
-	
-template <class T, class Container>
-bool operator>= (const stack<T,Container>& lhs, const stack<T,Container>& rhs);
+    template<class T, class Container>
+    bool operator<=(const stack<T, Container>& lhs, const stack<T, Container>& rhs)
+    {
+        return lhs._c <= rhs._c;
+    }
+
+    template<class T, class Container>
+    bool operator>(const stack<T, Container>& lhs, const stack<T, Container>& rhs)
+    {
+        return lhs._c > rhs._c;
+    }
+
+    template<class T, class Container>
+    bool operator>=(const stack<T, Container>& lhs, const stack<T, Container>& rhs)
+    {
+        return lhs._c >= rhs._c;
+    }
+
+} // NAMEPACE ft
 
 #endif

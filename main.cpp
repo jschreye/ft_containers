@@ -291,7 +291,7 @@ int main()
     std::cout << ft_p << std::endl;
     std::cout << std::endl;
 
-    std::cout << "...................MAP......................." << std::endl << std::endl;
+    /*std::cout << "...................MAP......................." << std::endl << std::endl;
     std::map <std::string, int> map1;
     ft::map <std::string, int> map2;
     map1["cat"] = 1;
@@ -305,7 +305,7 @@ int main()
         std::cout << it->first << " => " << it->second << std::endl;
     ft::map<std::string, int>::iterator it2;
     for(it2 = map2.begin(); it2 != map2.end(); it2++)
-        std::cout << it2->first << " => " << it2->second << std::endl;
+        std::cout << it2->first << " => " << it2->second << std::endl;*/
 
 
    
