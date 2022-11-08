@@ -22,7 +22,6 @@ namespace ft
 			typedef typename iterator_traits<Iterator>::value_type			value_type;
 			typedef typename iterator_traits<Iterator>::pointer				pointer;
 			typedef typename iterator_traits<Iterator>::reference			reference;
-			typedef typename iterator_traits<Iterator>::iterator_category	iterator_category;
 	
 		private:
 			Iterator _current;

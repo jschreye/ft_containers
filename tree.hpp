@@ -31,7 +31,6 @@ template<typename T, typename container, typename value> class	tree_iterator
 		typedef			value_type*				pointer;
 		typedef			value_type				iterator_category;
 		typedef			ptrdiff_t				difference_type;
-		typedef	typename	ft::bidirectional_iterator_tag		iterator_catgeory;
 
 	private:
 		tree_node	_current;
