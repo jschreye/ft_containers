@@ -8,6 +8,7 @@
 #include "enable_if.hpp"
 #include "reverse_iterator.hpp"
 #include "equal.hpp"
+
 namespace ft
 {
     template < class T, class Alloc = std::allocator<T> >

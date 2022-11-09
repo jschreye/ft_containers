@@ -23,9 +23,11 @@ template<typename T, typename container, typename value> class	bst_iterator
 		bst_iterator(const bst_iterator<typename container::node *, container, typename container::value_type> & in) : _current(in.base())
 		{
 		}
+
 		bst_iterator(node const &in) : _current(in)
 		{
 		}
+
 		virtual ~bst_iterator()
 		{
 		}
@@ -34,6 +36,7 @@ template<typename T, typename container, typename value> class	bst_iterator
 		{
 			return _current;
 		}
+
 		const node	&base() const
 		{
 			return _current;
@@ -41,13 +44,16 @@ template<typename T, typename container, typename value> class	bst_iterator
 	
 		bst_iterator &operator++()
 		{
-			if (_current->right != nullptr){
+			if (_current->right != nullptr)
+			{
 				_current = _current->right;
-				while (_current->left) {
+				while (_current->left)
+				{
 					_current = _current->left;
 				}
 			}
-			else {
+			else
+			{
 				node	c = _current;
 				_current = _current->parent;
 				while (_current->right == c)
@@ -68,17 +74,21 @@ template<typename T, typename container, typename value> class	bst_iterator
 
 	bst_iterator &operator--()
 	{
-		if (_current->left != nullptr) {
+		if (_current->left != nullptr)
+		{
 			_current = _current->left;
-			while (_current->right) {
+			while (_current->right)
+			{
 				_current = _current->right;
 			}
 			
 		}
-		else {
+		else
+		{
 			node	c = _current;
 			_current = _current->parent;
-			while (_current->left == c) {
+			while (_current->left == c)
+			{
 				c = _current;
 				_current = _current->parent;
 			}
@@ -96,15 +106,18 @@ template<typename T, typename container, typename value> class	bst_iterator
 	bst_iterator	operator-(int const &i) const
 	{
 		bst_iterator ret = *this;
-		for (int j = 0; j < i; j++) {
+		for (int j = 0; j < i; j++)
+		{
 			ret--;
 		}
 		return ret;
 	}
 
-	bst_iterator	operator+(int const &i) const {
+	bst_iterator	operator+(int const &i) const
+	{
 		bst_iterator ret = *this;
-		for (int j = 0; j < i; j++) {
+		for (int j = 0; j < i; j++)
+		{
 			ret++;
 		}
 		return ret;
@@ -123,6 +136,7 @@ template<typename T, typename container, typename value> class	bst_iterator
 	{
 		return _current == x._current;
 	}
+
 	bool operator!=(bst_iterator const &x) const
 	{
 		return !(*this == x);
@@ -132,6 +146,7 @@ template<typename T, typename container, typename value> class	bst_iterator
 	{
 		return _current->value;
 	}
+
 	value_type	&operator*() const
 	{
 		return _current->value;

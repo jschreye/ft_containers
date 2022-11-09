@@ -24,7 +24,7 @@ template<class T> struct node
 
 template < class T, class Compare = std::less<T>,
 		   class Allocator = std::allocator<T> >
-class tree
+class binary_search_tree
 {
 	public:
 		typedef	T																	value_type;
@@ -33,8 +33,8 @@ class tree
 
 		typedef typename Allocator::template rebind<node<value_type> >::other		tree_node_allocator_type;
 		typedef	node<value_type>													node;
-		typedef	bst_iterator<node *, tree, T>										iterator;
-		typedef	bst_iterator<const node *, tree, const T>							const_iterator;
+		typedef	bst_iterator<node *, binary_search_tree, T>										iterator;
+		typedef	bst_iterator<const node *, binary_search_tree, const T>							const_iterator;
 		typedef	ft::reverse_iterator<iterator>										reverse_iterator;
 		typedef	ft::reverse_iterator<const_iterator>								const_reverse_iterator;
 		typedef	size_t																size_type;
@@ -412,13 +412,13 @@ class tree
 		}
 
 	public:
-		tree(const value_compare& comp, const allocator_type& a) : _comp(comp), _a(a), _a_node(a), _root(nullptr), _dummy(), _size(0)
+		binary_search_tree(const value_compare& comp, const allocator_type& a) : _comp(comp), _a(a), _a_node(a), _root(nullptr), _dummy(), _size(0)
 		{
 			_dummy.left = &_dummy;
 			_dummy.right = nullptr;
 		}
 
-		tree(const tree &x) : _comp(x._comp), _a(x._a), _a_node(x._a_node), _root(), _dummy(), _size(0)
+		binary_search_tree(const binary_search_tree &x) : _comp(x._comp), _a(x._a), _a_node(x._a_node), _root(), _dummy(), _size(0)
 		{
 			const_iterator it = x.begin();
 			while (it != x.end())
@@ -428,7 +428,7 @@ class tree
 			}
 		}
 
-		tree	&operator=(const tree & x)
+		binary_search_tree	&operator=(const binary_search_tree & x)
 		{
 			if (this != &x)
 			{
@@ -448,7 +448,7 @@ class tree
 			return *this;
 		}
 
-		~tree()
+		~binary_search_tree()
 		{
 			clear();
 		}
@@ -504,7 +504,7 @@ class tree
 			return 1;
 		}
 
-		void 		swap (tree& x)
+		void 		swap (binary_search_tree& x)
 		{
 			if (this != &x)
 			{
