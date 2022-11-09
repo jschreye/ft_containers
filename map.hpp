@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <memory>
-#include "tree.hpp"
+#include "binary_search_tree.hpp"
 #include "pair.hpp"
 #include "equal.hpp"
 
