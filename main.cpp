@@ -1,5 +1,5 @@
 #include "vector.hpp"
-//#include "stack.hpp"
+#include "stack.hpp"
 #include "map.hpp"
 #include <vector>
 #include <iostream>
