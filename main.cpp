@@ -295,21 +295,73 @@ int main()
     std::cout << std::endl;
 
     std::cout << "...................MAP......................." << std::endl << std::endl;
-    std::map <std::string, int> map1;
-    ft::map <std::string, int> map2;
-    map1["cat"] = 1;
-    map1["chien"] = 2;
-    map1.insert(std::make_pair("chat", 3));
-    map2["cat"] = 1;
-    map2["chien"] = 2;
-    map2.insert(ft::make_pair("chat", 3));
+    std::cout << "..........INSERT AND BEGIN AND END..........." << std::endl << std::endl;
+    std::map <std::string, int> std_map1;
+    ft::map <std::string, int> ft_map1;
+    std_map1["cat"] = 1;
+    std_map1["chien"] = 2;
+    std_map1.insert(std::make_pair("chat", 3));
+    ft_map1["cat"] = 1;
+    ft_map1["chien"] = 2;
+    ft_map1.insert(ft::make_pair("chat", 3));
     std::map<std::string, int>::iterator it;
-    for(it = map1.begin(); it != map1.end(); it++)
+    for(it = std_map1.begin(); it != std_map1.end(); it++)
         std::cout << it->first << " => " << it->second << std::endl;
     ft::map<std::string, int>::iterator it2;
-    for(it2 = map2.begin(); it2 != map2.end(); it2++)
+    for(it2 = ft_map1.begin(); it2 != ft_map1.end(); it2++)
         std::cout << it2->first << " => " << it2->second << std::endl;
     std::cout << std::endl;
+
+    std::cout << "..............SIZE AND MAXSIZE.............." << std::endl << std::endl;    
+    std::cout << "std_map1 = " << std_map1.size() << std::endl;
+    std::cout << "ft_map2 = " << ft_map1.size() << std::endl;
+    std::cout << std::endl;
+    std::cout << "std_map1 = " << std_map1.max_size() << std::endl;
+    std::cout << "ft_map1 = " << ft_map1.max_size() << std::endl;
+    std::cout << std::endl;    
+
+    std::cout << "....................SWAP...................." << std::endl << std::endl;
+    std::map <std::string, int> std_map2;
+    ft::map <std::string, int> ft_map2;
+    std_map2["dog"] = 1;
+    std_map2["oiseau"] = 2;
+    std_map2.insert(std::make_pair("poulet", 3));
+    ft_map2["dog"] = 1;
+    ft_map2["oiseau"] = 2;
+    ft_map2.insert(ft::make_pair("poulet", 3));
+    for(it = std_map1.begin(); it != std_map1.end(); it++)
+        std::cout << "std_map1 = " << it->first << " => " << it->second << std::endl;
+    std_map1.swap(std_map2);
+    for(it = std_map1.begin(); it != std_map1.end(); it++)
+        std::cout << "std_map1 = " << it->first << " => " << it->second << std::endl;
+    std::cout << std::endl;
+    for(it2 = ft_map1.begin(); it2 != ft_map1.end(); it2++)
+        std::cout << "ft_map1 = " << it2->first << " => " << it2->second << std::endl;
+    ft_map1.swap(ft_map2);
+    for(it2 = ft_map1.begin(); it2 != ft_map1.end(); it2++)
+        std::cout << "ft_map1 = " << it2->first << " => " << it2->second << std::endl;
+    std::cout << std::endl;
+
+    std::cout << "..................ERASE....................." << std::endl << std::endl;
+    std_map1.erase(std_map1.begin());
+    for(it = std_map1.begin(); it != std_map1.end(); it++)
+        std::cout << "std_map1 = " << it->first << " => " << it->second << std::endl;
+    ft_map1.erase(ft_map1.begin());
+    for(it2 = ft_map1.begin(); it2 != ft_map1.end(); it2++)
+        std::cout << "ft_map1 = " << it2->first << " => " << it2->second << std::endl;
+    std::cout << std::endl;
+    std_map1.erase("poulet");
+    for(it = std_map1.begin(); it != std_map1.end(); it++)
+        std::cout << "std_map1 = " << it->first << " => " << it->second << std::endl;
+    ft_map1.erase("poulet");
+    for(it2 = ft_map1.begin(); it2 != ft_map1.end(); it2++)
+        std::cout << "ft_map1 = " << it2->first << " => " << it2->second << std::endl;
+    std_map1.erase(std_map1.begin(), std_map1.end());
+    ft_map1.erase(ft_map1.begin(), ft_map1.end());
+    std::cout << std::endl; 
+    std::cout << "std_map1 = " << std_map1.empty() << std::endl;
+    std::cout << "ft_map1 = " << ft_map1.empty() << std::endl;
+    std::cout << std::endl;        
 
     std::cout << "..................STACK....................." << std::endl << std::endl;
     std::cout << "..................EMPTY....................." << std::endl << std::endl;
