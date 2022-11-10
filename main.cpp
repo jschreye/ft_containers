@@ -2,6 +2,7 @@
 #include "stack.hpp"
 #include "map.hpp"
 #include <vector>
+#include <stack>
 #include <iostream>
 #include <memory>
 #include <map>
@@ -289,9 +290,11 @@ int main()
     int *ft_p = ft_v2.get_allocator().allocate(5);
     std::cout << std_p << std::endl;
     std::cout << ft_p << std::endl;
+    delete std_p;
+    delete ft_p;
     std::cout << std::endl;
 
-    /*std::cout << "...................MAP......................." << std::endl << std::endl;
+    std::cout << "...................MAP......................." << std::endl << std::endl;
     std::map <std::string, int> map1;
     ft::map <std::string, int> map2;
     map1["cat"] = 1;
@@ -305,63 +308,41 @@ int main()
         std::cout << it->first << " => " << it->second << std::endl;
     ft::map<std::string, int>::iterator it2;
     for(it2 = map2.begin(); it2 != map2.end(); it2++)
-        std::cout << it2->first << " => " << it2->second << std::endl;*/
+        std::cout << it2->first << " => " << it2->second << std::endl;
+    std::cout << std::endl;
 
+    std::cout << "..................STACK....................." << std::endl << std::endl;
+    std::cout << "..................EMPTY....................." << std::endl << std::endl;
+    std::stack<int> std_stack;
+    ft::stack<int> ft_stack;
+    std::cout << "std_stack = " << std_stack.empty() << std::endl;
+    std::cout << "ft_stack = " << ft_stack.empty() << std::endl;
+    std::cout << std::endl;
 
-   
+    std::cout << "...........PUSH AND TOP AND POP............." << std::endl << std::endl;
+    std_stack.push(1);
+    std::cout <<  "std_stack = " << std_stack.top() << std::endl;
+    std_stack.push(2);
+    std::cout <<  "std_stack = " << std_stack.top() << std::endl;
+    std_stack.push(3);
+    //std_stack.pop();
+    std::cout <<  "std_stack = " << std_stack.top() << std::endl;
+    std::cout << std::endl;
+
+    ft_stack.push(1);
+    std::cout << "ft_stack = " << ft_stack.top() << std::endl;
+    ft_stack.push(2);
+    std::cout << "ft_stack = " << ft_stack.top() << std::endl;
+    ft_stack.push(3);
+    //ft_stack.pop();
+    std::cout << "ft_stack = " << ft_stack.top() << std::endl;
+    std::cout << std::endl;
+    std::cout << "..................EMPTY....................." << std::endl << std::endl;
+    std::cout << "std_stack = " << std_stack.empty() << std::endl;
+    std::cout << "ft_stack = " << ft_stack.empty() << std::endl;
+    std::cout << std::endl;
+    std::cout << "...................SIZE....................." << std::endl << std::endl;
+    std::cout << "std_stack = " << std_stack.size() << std::endl;
+    std::cout << "ft_stack = " << ft_stack.size() << std::endl;
+    return (0);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-                /* mon ancien insert
-                pointer new_vector = NULL;
-                size_type pos = position - this->begin();
-                size_type end = this->end() - this->begin();
-                size_type i = 0;
-
-                if (pos <= this->_size)
-                {
-                    new_vector = _space.allocate(this->_size + n);
-                    for (i = 0; i < pos; i++)
-                        _space.construct(new_vector + i, this->_vector[i]);
-                    for (; i - pos < n; i++)
-                        _space.construct(new_vector + i, val);
-                    for (; i < end + n; i++)
-                        _space.construct(new_vector + i, this->_vector[i - n]);
-                    _space.deallocate(this->_vector, this->_capacity);
-                    this->_vector = new_vector;
-                    this->_capacity = _capacity + n;
-                    this->_size = _size + n;
-                }
-                else if (pos > this->_size)
-                {
-                    new_vector = _space.allocate(pos + n);
-                    if (i > pos)
-                        for (i = 0; i < pos; i++)
-                            _space.construct(new_vector + i, _vector[i - n]);
-                    else if (i <= pos)
-                        for (i = 0; i < pos; i++)
-                            _space.construct(new_vector + i, _vector[i]);
-                    else if (i >= pos)
-                        for (; i - pos < n; i++)
-                            _space.construct(new_vector + i, val);
-                    else if (i < pos)
-                        for (; pos - i < n; i++)
-                            _space.construct(new_vector + i, val);
-                    for (; i < end; i++)
-                        _space.construct(new_vector + i + 1, _vector[i - n]);
-                    _space.deallocate(this->_vector, this->_capacity);
-                    this->_vector = new_vector;
-                    this->_size = pos + n;
-                    this->_capacity = pos + n;
-                }
-                */ 
