@@ -1,10 +1,10 @@
 #ifndef ENABLE_IF_HPP
 #define ENABLE_IF_HPP
 
-
+//SOURCE cplusplus.com
 namespace ft
 {
-	template <bool Cond, class T = void> struct enable_if
+	template <bool B, class T = void> struct enable_if
 	{
 	
 	};
@@ -21,7 +21,7 @@ namespace ft
 	};
 
 	template <typename> struct is_integral_type : public is_integral_res<false, bool> {};
-	template <typename T> struct is_integral : public is_integral_type<T> { };
+	template <typename T> struct is_integral : public is_integral_type<T> {};
 	template < > struct is_integral_type<char> : public is_integral_res<true, char> {};
 	template < > struct is_integral_type<signed char> : public is_integral_res<true, signed char> {};
 	template < > struct is_integral_type<unsigned char> : public is_integral_res<true, unsigned char> {};

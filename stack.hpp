@@ -1,5 +1,5 @@
-#ifndef FT_STACK_HPP
-#define FT_STACK_HPP
+#ifndef STACK_HPP
+#define STACK_HPP
 
 #include "vector.hpp"
 #include <cstddef>
@@ -116,6 +116,6 @@ namespace ft
         return lhs._c >= rhs._c;
     }
 
-} // NAMEPACE ft
+}
 
 #endif
