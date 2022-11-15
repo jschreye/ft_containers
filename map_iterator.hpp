@@ -93,7 +93,7 @@ namespace ft
             return tmp;
         }
 
-        iterator operator--()
+        iterator &operator--()
         {
             if ((_ptr->_right && _ptr->_right->_parent != _ptr) || (_ptr->_left && _ptr->_left->_parent != _ptr))
                 _ptr = _ptr->_right;
